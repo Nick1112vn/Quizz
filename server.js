@@ -1,8 +1,8 @@
 const express = require('express');
-
+const cors = require('cors');
 const app = express();
+app.use(cors());
 const PORT = 3000; // Bạn có thể thay đổi cổng nếu cần
-
 // API để lấy thời gian hiện tại từ máy chủ
 app.get('/time', (req, res) => {
     const now = new Date(); // Lấy thời gian hiện tại
