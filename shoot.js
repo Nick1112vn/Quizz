@@ -1,5 +1,5 @@
 let lastX, lastY, lastZ;
-let shakeThreshold = 1; // Ngưỡng để xác định rung mạnh hay yếu
+let shakeThreshold = 0.001; // Ngưỡng để xác định rung mạnh hay yếu
 let shakeTimeout;
 alert("shot")
 // Hàm xử lý khi lắc điện thoại
@@ -40,7 +40,7 @@ alert(deltaX+" "+deltaY)
   if ((deltaX > shakeThreshold && deltaY > shakeThreshold) ||
       (deltaX > shakeThreshold && deltaZ > shakeThreshold) ||
       (deltaY > shakeThreshold && deltaZ > shakeThreshold)) {
-        
+      document.querySelector('h1').innerText=deltaX+" "+deltaY+" "+deltaZ  
     // Ngăn việc lắc liên tục
     if (!shakeTimeout) {
       onShake(); // Gọi hàm khi phát hiện lắc
