@@ -4,7 +4,7 @@ let shakeTimeout;
 alert("shot")
 // Hàm xử lý khi lắc điện thoại
 function onShake() {
-    alert("shot")
+    //alert("shot")
   // Đây là nơi bạn có thể thực hiện hành động, ví dụ: bắn súng
   console.log("Phone shake detected!");
   const sound = new Audio('./pistolShot.mp3');
@@ -35,7 +35,7 @@ window.addEventListener("devicemotion", event => {
   let deltaX = Math.abs(currentX - lastX);
   let deltaY = Math.abs(currentY - lastY);
   let deltaZ = Math.abs(currentZ - lastZ);
-
+alert(deltaX+" "+deltaY)
   // Kiểm tra xem sự thay đổi có vượt ngưỡng không
   if ((deltaX > shakeThreshold && deltaY > shakeThreshold) ||
       (deltaX > shakeThreshold && deltaZ > shakeThreshold) ||
