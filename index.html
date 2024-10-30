@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Real-Time Quiz</title>
+    <style>
+        body, html {
+    overflow: hidden;
+   
+}
+        body *{
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+        body { 
+            font-family: Arial, sans-serif; text-align: center; margin-top: 50px; 
+            position: absolute;
+    
+    padding: 0%;
+    margin: 0%;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    width:100%;
+    height:100%;
+            background: linear-gradient(45deg, rgb(214, 0, 0), rgb(255, 162, 0));
+            background-repeat: no-repeat; /* Prevents the background from repeating */
+    background-attachment: fixed; /* Ensures the background stays fixed when scrolling */
+    background-size: cover;
+        }
+        .quiz-container { max-width: 400px; margin: auto; display:none; }
+        .question { font-size: 20px; margin-bottom: 10px; }
+        .options { list-style-type: none; padding: 0; }
+        .options li { margin-bottom: 10px; }
+        button { padding: 10px 20px; }
+        * {
+  box-sizing: border-box;
+}
+.heading{
+    margin-top:0;
+    color:aliceblue;
+    font-size: 80px;
+    text-align: center;
+    
+}
+.submit{
+    outline: none;
+    background-color: transparent;
+    margin: 0%;
+    border: none;
+    transition: 0.1s;
+    font-size: 20px;
+    padding: 15px 25px;
+    color: #f0f0f0;
+    border: 5px solid rgb(255, 255, 255);
+    margin-top: 20px;
+    cursor: pointer;
+}
+.submit:active{
+    background-color: rgb(255, 166, 0); 
+    color:aliceblue;
+}
+.custom-select {
+            position: absolute;
+            display: inline-block;
+            width: 300px;
+            left:50%;
+            top:50%;
+            transform: translate(-50%,-50%);
+        }
+        .custom-select:focus-within select {
+            
+        }
+        .hideselect {
+            
+        }
+        .custom-select > div{
+            transition: 0.2s;
+            height:220px;
+            overflow: hidden;
+            margin-top: 20px;
+            border: 1px solid #ffd7aa;
+            box-sizing:content-box;
+            
+            
+        }
+        .hideDv{
+            height: 0 !important;
+        }
+        #selectInput {
+            width: 100%;
+            box-sizing: border-box;
+            height: 50px;
+            padding: 0%;
+            border-radius: 25px;
+            outline: none;
+            border:none;
+            transition: 0.2s;
+            font-size: 25px;
+            padding: 10px ;
+            
+        }
+        
+        .default-border-radius{
+            border-radius: 5px !important;
+        }
+        #mySelect {
+            width: 100%;
+            clip-path: inset(10px);
+            outline: none;
+            margin-top: 5px;
+            background-color: transparent;
+            border-radius: 5px;
+            height:220px;
+            min-height: 0px;
+            margin:0;
+            border: 0px solid #ff4d0000;
+            appearance: none; /* Ẩn mũi tên mặc định trên iOS */
+    -webkit-appearance: none;
+            display: flex;
+            padding: 10px;
+            flex-direction: column;
+            gap:10px;
+            overflow-y: auto;
+        }
+
+        #mySelect div {
+            padding: 10px;
+            cursor: pointer;
+            background-color: coral;
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+            color:aliceblue;
+            font-size: 20px;
+            height:calc(212.5px * 0.2);
+            transition: 0.2s ;
+        }
+        #mySelect div :active {
+background-color: aliceblue;
+color:black;
+        }
+        option:hover {
+            color:black;
+            background-color: #f0f0f0;
+            transition: 0.2s;
+        }
+        ::-webkit-scrollbar {
+    display: none; /* Ẩn scrollbar */
+}
+* {
+    scrollbar-width: none; /* Không hiển thị scrollbar */
+}
+#storiesDiv{
+    display:none;
+    height:auto;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+#storySelect{
+    display: inline-block;
+    width:400px;
+    height:400px;
+    
+    display: inline-flex;
+    flex-direction: column;
+    gap:5%;
+}
+@media (max-width: 480px) {
+    #storySelect{
+    width:90vw;
+    height:90vw;
+    }
+}
+#storySelect div{
+height:calc(20% - 20% * 0.2);
+display:flex;
+align-items: center;
+justify-content: center;
+background-color: rgb(173, 66, 0);
+cursor: pointer;
+}
+#storySelect div p{
+    
+color:rgb(255, 255, 255);
+}
+#storiesDiv h1{
+    display:inline-block;
+    color:aliceblue;
+    font-size: 30px;
+    width:100vw;
+    margin-bottom: 40px;
+}
+@media (max-width: 480px) {
+    #storiesDiv h1{
+font-size: 10vw;
+    }
+}
+#waiting{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+}
+#waiting h1{
+    color:#f0f0f0;
+    font-size: 40px;
+}
+    </style>
+</head>
+<body>
+    <div id="waiting" style="display:none">
+        <h1>Waiting for your turn</h1>
+        </div>
+<div id="storiesDiv">   
+    <h1>Chọn 1 bí mật gần giống với bạn nhất</h1>
+<div id="storySelect"></div>   
+</div> 
+<div class="quiz-container">
+    <div id="question" class="question">Waiting for the quiz to start...</div>
+    <ul id="options" class="options"></ul>
+</div>
+<div class="custom-select" id="StudentsList" >
+    <h1 class="heading">Quizz Sinh</h1>
+    <input type="text" id="selectInput" placeholder="Select your name" autocomplete="off" ><div class="hideDv"><div id="mySelect" size="5"></div></div><button class="submit">submit</button>
+</div>
+
+<script src="https://cdn.socket.io/4.8.0/socket.io.min.js" integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd" crossorigin="anonymous"></script>
+<script>
+    const socket = io('http://localhost:3000');
+    const questionDiv = document.getElementById('question');
+    const optionsDiv = document.getElementById('options');
+     document.querySelector('#waiting').style.display="none"
+    socket.on('stories', (data) => {
+console.log(data)
+document.querySelector('#StudentsList').style.display="none"
+data.forEach(function(item){
+    const dv=document.createElement('div')
+    dv.innerHTML=`<p>${stories[item]}</p>`
+    dv.addEventListener('click',()=>{
+        socket.emit("selectStory",item)
+        document.querySelector('#storiesDiv').style.display="none"
+        document.querySelector('#waiting').style.display="block"
+    })
+    document.querySelector('#storySelect').appendChild(dv)
+})
+document.querySelector('#storiesDiv').style.display="inline-block"
+    })
+    socket.on('question', (data) => {
+        // Hiển thị câu hỏi
+        document.querySelector("#waiting").style.display='none'
+        document.querySelector("#storySelect").style.display='none'
+document.querySelector(".quiz-container").style.display='block'
+        console.log(data)
+        questionDiv.innerText = data.question;
+
+        // Hiển thị các tùy chọn câu trả lời
+        optionsDiv.innerHTML = '';
+        data.options.forEach((option, index) => {
+            const optionElement = document.createElement('li');
+            const button = document.createElement('button');
+            button.innerText = option;
+            button.addEventListener('click', () => {
+                socket.emit('submitAnswer', { answer: index + 1 });
+                questionDiv.innerText = "Waiting for other players...";
+                optionsDiv.innerHTML = ''; // Ẩn lựa chọn sau khi trả lời
+            });
+            optionElement.appendChild(button);
+            optionsDiv.appendChild(optionElement);
+        });
+    });
+
+    socket.on('quizEnd', (data) => {
+        questionDiv.innerText = data.message;
+        optionsDiv.innerHTML = ''; // Xóa các lựa chọn khi kết thúc quiz
+    });
+    socket.on('quizStart', (data) => {
+
+
+    })
+    document.querySelector("#StudentsList").querySelector(".submit").addEventListener("click",function(){
+        socket.emit('name', document.querySelector("#mySelect").value);
+    })
+    function removeAccents(str) {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+let stories;
+fetch('./stories.json')
+  .then(response => response.json())  // Chuyển đổi dữ liệu thành JSON
+  .then(data => {
+    stories=data;
+  })
+    fetch('./students.json')
+  .then(response => response.json())  // Chuyển đổi dữ liệu thành JSON
+  .then(data => {
+    console.log(data.flat());  // In dữ liệu ra console
+    console.log('Name:', data.name);  // Truy cập thuộc tính 'name'
+    data.flat().forEach((item)=>{
+        const dv=document.createElement("div")
+        dv.value=item;
+        dv.innerText=item;
+        document.getElementById('mySelect').appendChild(dv)
+        dv.addEventListener('mousedown',()=>{change(item)})
+    })
+  })
+  .catch(error => console.error('Error:', error));
+  const input = document.getElementById('selectInput');
+        const select = document.getElementById('mySelect');
+        select.classList.add("hideselect");
+        select.parentNode.classList.add("hideDv");
+        //    input.classList.add("default-border-radius")
+        // Khi người dùng nhập vào input
+        input.addEventListener('input', function() {
+            select.value=null;
+            search() 
+        });
+function search(){
+    
+            const filter = removeAccents(input.value).toLowerCase();
+            const options = select.getElementsByTagName('div');
+
+            // Lọc các tùy chọn dựa trên giá trị nhập
+            for (let i = 0; i < options.length; i++) {
+                const text = options[i].textContent || options[i].innerText;
+                //console.log(text.toLowerCase())
+                if (removeAccents(text).toLowerCase().indexOf(filter) > -1) {
+                    options[i].style.display = "block";  // Hiển thị tùy chọn khớp
+                } else {
+                    options[i].style.display = "none";   // Ẩn tùy chọn không khớp
+                }
+                
+            }
+
+            //select.style.display = "block";  // Hiển thị select khi người dùng nhập
+}
+        // Khi người dùng click vào một option
+        function change(value) {
+            select.value=value;
+            select.classList.add("hideselect");
+            select.parentNode.classList.add("hideDv");
+            input.classList.remove("default-border-radius")
+            //console.log(select.getElementsByTagName('option')[select.selectedIndex])
+            
+            if(select.value && select.value!="")input.value = select.value;
+            search();  // Set giá trị input = giá trị của option được chọn
+            //select.style.display = "none";  // Ẩn select sau khi chọn
+            if(select.value && select.value!=""){
+                const options = select.getElementsByTagName('div');
+                for (let i = 0; i < options.length; i++) {
+                
+                  
+                    options[i].style.display = "none";   // Ẩn tùy chọn không khớp
+                }
+                
+            
+            }
+        }
+        input.addEventListener('focus', function() {
+            select.classList.remove("hideselect");input.classList.add("default-border-radius");select.parentNode.classList.remove("hideDv");})
+            
+        // Ẩn danh sách khi click ra ngoài
+        input.addEventListener('click', function(event) {
+        //search()
+    });
+        document.addEventListener('mousedown', function(event) {
+            if (!event.target.closest('.custom-select')) {
+                select.classList.add("hideselect");
+                select.parentNode.classList.add("hideDv");
+                input.classList.remove("default-border-radius")
+                if(select.value && select.value!="")input.value = select.value;
+                else input.value=""
+                search();
+                if(select.value && select.value!=""){
+                const options = select.getElementsByTagName('div');
+                for (let i = 0; i < options.length; i++) {
+                
+                  
+                    options[i].style.display = "none";   // Ẩn tùy chọn không khớp
+                }
+                
+            
+            }
+            }
+        });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Host</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>Quiz Host</h1>
+    <div id="hostInfo"></div>
+   
+    <button id="startButton">Start Quiz</button>
+
+    <script>
+        const socket = io('http://localhost:3000');
+
+        // Gán host
+        socket.emit('host',11122008);
+
+        socket.on('host_assigned', (message) => {
+            document.getElementById('hostInfo').innerText = message;
+        });
+
+        // Gửi câu hỏi đến người chơi
+        document.getElementById('startButton').onclick = () => {
+            //const question = document.getElementById('questionInput').value;
+            socket.emit('start_quiz',11122008);
+        };
+    </script>
+</body>
+</html>
