@@ -1,5 +1,5 @@
 let lastX, lastY, lastZ;
-let shakeThreshold = 0.001; // Ngưỡng để xác định rung mạnh hay yếu
+let shakeThreshold = 0.01; // Ngưỡng để xác định rung mạnh hay yếu
 let shakeTimeout;
 alert("shot")
 // Hàm xử lý khi lắc điện thoại
