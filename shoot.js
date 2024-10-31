@@ -1,5 +1,5 @@
 let lastX, lastY, lastZ;
-let shakeThreshold = 0.001; // Ngưỡng để xác định rung mạnh hay yếu
+let shakeThreshold = 5; // Ngưỡng để xác định rung mạnh hay yếu
 let shakeTimeout;
 alert("shot")
 // Hàm xử lý khi lắc điện thoại
@@ -35,7 +35,7 @@ window.addEventListener("devicemotion", event => {
   let deltaX = Math.abs(currentX - lastX);
   let deltaY = Math.abs(currentY - lastY);
   let deltaZ = Math.abs(currentZ - lastZ);
-alert(deltaX+" "+deltaY)
+//alert(deltaX+" "+deltaY)
   // Kiểm tra xem sự thay đổi có vượt ngưỡng không
   if ((deltaX > shakeThreshold && deltaY > shakeThreshold) ||
       (deltaX > shakeThreshold && deltaZ > shakeThreshold) ||
