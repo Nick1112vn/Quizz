@@ -5,9 +5,9 @@ const app = express();
 const cors = require('cors');
 const server = http.createServer(app);
 const hostKey=11122008;
-const originstudents=require("../public/students.json");
+const originstudents=require("../students.json");
 const students=[[],[],[],[],[]]
-const stories=require("../public/stories.json");
+const stories=require("../stories.json");
 const origingroups=[];
 let currentTimeout;
 let groups=[];
