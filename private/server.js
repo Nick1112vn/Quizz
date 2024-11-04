@@ -98,8 +98,8 @@ io.on('connection', (socket) => {
         //console.log(timeShoot)
         if(timeShoot!=null){
             const now = new Date(sentTime)
-if (now<timeShoot)host.emit('miss','')
-    else {
+
+    
         clearTimeout(currentTimeout);
 socket.shootTime=now
 
@@ -110,14 +110,17 @@ const sortedArr = arr.sort((a, b) => b.shootTime - a.shootTime);
 
 // Lấy đối tượng có giá trị cao nhất
 const highestValueObject = sortedArr[0];
-host.emit('winner',{name:socket.name,answer:socket.answer})
+if (now<timeShoot)host.emit('miss',socket.name)
+else host.emit('winner',{name:socket.name,answer:socket.answer})
 answeringPlayers.forEach(s =>s.shootTime=null)
+answeringPlayers.forEach(s =>s.emit('reset', ''));
 players.forEach(p => p.answered = false);
 timeShoot=null;
+setTimeout(() => {
 sendQuestion();
+},5000)
 
-
-        }
+        
     }  
     })
     socket.on('name', (name) => {
@@ -201,6 +204,11 @@ timeShoot.setSeconds(timeShoot.getSeconds() + randomSeconds);
         //console.log(`Player disconnected: ${socket.id}`);
         players = players.filter(p => p.id !== socket.id);
         if(!socket.name)return;
+        if (answeringPlayers.includes(socket)&&!socket.answered){answeringPlayers.forEach(s =>s.shootTime=null)
+            players.forEach(p => p.answered = false);
+            timeShoot=null;
+            sendQuestion();
+        }
         const index=students.findIndex(innerArray => innerArray.includes(socket.name))
         students[index].splice(students[index].indexOf(socket.name),1)
         rdPlayers[index].splice(students[index].indexOf(socket.name),1)

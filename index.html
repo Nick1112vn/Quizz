@@ -100,13 +100,19 @@ document.querySelector('#shootingPanel').style.display="none"
     });
 
     socket.on('quizEnd', (data) => {
-        questionDiv.innerText = data.message;
-        optionsDiv.innerHTML = ''; // Xóa các lựa chọn khi kết thúc quiz
+        document.querySelector('#waiting').style.display="block"
+        document.querySelector('#waiting').querySelector('h1').innerText="Quiz end!"
+        document.querySelector('#shootingPanel').style.display="none"
+        document.querySelector(".quiz-container").style.display='none'
     });
     socket.on('quizStart', (data) => {
 
 
     })
+    socket.on('reset', (data) => {
+ document.querySelector('#shootingPanel').style.display="none"
+
+})
     document.querySelector("#StudentsList").querySelector(".submit").addEventListener("click",function(){
         socket.emit('name', document.querySelector("#mySelect").value);
     })

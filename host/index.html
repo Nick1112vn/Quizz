@@ -92,6 +92,11 @@ const questionDiv = document.getElementById('question');
     socket.emit('start_quiz',11122008);
   }
 });
+socket.on('quizEnd', (data) => {
+        document.querySelector('.quiz-container').innerHTML="Quiz end!"
+        document.querySelector('#battle').style.display='none'
+            document.querySelector('#battle').querySelector("h1").style.display='none'
+    });
     </script>
 </body>
 </html>
