@@ -37,7 +37,7 @@
     }
     function fetchTime(){
         const startTime = performance.now();
-        fetch('http://localhost:3000/ntp-time', {
+        fetch('https://time-vu8k.onrender.com/ntp-time', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -50,13 +50,14 @@
     console.log(data)
     // Calculate the delay time
     const delayTime = (endTime - startTime)/1000;
-    if (delayTime>0.01)fetchTime()
+    console.log(endTime - startTime)
+    if (delayTime>0.4)fetchTime()
     else {edT=endTime;currentTime=ntpTime}
   })
     }
     fetchTime()
     var canShoot=false;
-    const socket = io('http://localhost:3000');
+    const socket = io('https://time-vu8k.onrender.com');
     const questionDiv = document.getElementById('question');
     const optionsDiv = document.getElementById('options');
      document.querySelector('#waiting').style.display="none"

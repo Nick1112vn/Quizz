@@ -94,27 +94,23 @@ io.on('connection', (socket) => {
             const now = new Date(sentTime)
 if (now<timeShoot)host.emit('miss','')
     else {
-socket.shootTime=now
-if(answeringPlayers[0]==null)host.emit('winner',answeringPlayers[1].name)
-    else if(answeringPlayers[1]==null)host.emit('winner',answeringPlayers[0].name)
         clearTimeout(currentTimeout);
-if(answeringPlayers[0].shootTime!=null&&answeringPlayers[1].shootTime!=null){
+socket.shootTime=now
+
+       
+
 const arr=answeringPlayers;
 const sortedArr = arr.sort((a, b) => b.shootTime - a.shootTime);
 
 // Lấy đối tượng có giá trị cao nhất
 const highestValueObject = sortedArr[0];
-host.emit('winner',highestValueObject.name)
+host.emit('winner',{name:socket.name,answer:socket.answer})
 answeringPlayers.forEach(s =>s.shootTime=null)
 players.forEach(p => p.answered = false);
 timeShoot=null;
 sendQuestion();
-}
-else currentTimeout=setTimeout(() => {host.emit('winner',socket.name)
-    answeringPlayers.forEach(s =>s.shootTime=null)
-    players.forEach(p => p.answered = false);
-    timeShoot=null;
-    sendQuestion();}, 2000);
+
+
         }
     }  
     })
@@ -158,6 +154,7 @@ socket.selectedStory=stories[i];
         // Đánh dấu người chơi đã trả lời
         
         if (!answeringPlayers.includes(socket)||socket.answered) return;
+        socket.answer=data.answer==originQuestions[currentQuestionIndex].answer
             //console.log("1");
             answersReceived+=1;
             
@@ -180,6 +177,11 @@ socket.answered=true;
 // Add the random seconds to the current time
 timeShoot.setSeconds(timeShoot.getSeconds() + randomSeconds);
                     host.emit('shootTime',randomSeconds)
+                    currentTimeout=setTimeout(() => {host.emit('winner',null)
+                        answeringPlayers.forEach(s =>s.shootTime=null)
+                        players.forEach(p => p.answered = false);
+                        timeShoot=null;
+                        sendQuestion();}, 20000);
                 },10000)
                 // Gửi câu hỏi mới cho tất cả người chơi
                 
