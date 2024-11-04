@@ -89,7 +89,7 @@ io.on('connection', (socket) => {
     socket.on('shoot', (sentTime) => {
         if (!answeringPlayers.includes(socket)||!socket.answered) return;
         host.emit('shoot','')
-        console.log(timeShoot)
+        //console.log(timeShoot)
         if(timeShoot!=null){
             const now = new Date(sentTime)
 if (now<timeShoot)host.emit('miss','')
@@ -200,7 +200,7 @@ timeShoot.setSeconds(timeShoot.getSeconds() + randomSeconds);
         rdPlayers[index].splice(students[index].indexOf(socket.name),1)
         answeringPlayers.splice(answeringPlayers.indexOf(socket),1)
         if(students[index].length<=0)origingroups.splice(origingroups.indexOf(index),1);
-        console.log(students,index,origingroups)
+        //console.log(students,index,origingroups)
     });
 });
 
