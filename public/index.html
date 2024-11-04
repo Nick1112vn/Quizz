@@ -4,223 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Real-Time Quiz</title>
-    <style>
-        body, html {
-    overflow: hidden;
-   
-}
-        body *{
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
-}
-        body { 
-            font-family: Arial, sans-serif; text-align: center; margin-top: 50px; 
-            position: absolute;
-    
-    padding: 0%;
-    margin: 0%;
-    left:50%;
-    top:50%;
-    transform: translate(-50%,-50%);
-    width:100%;
-    height:100%;
-            background: linear-gradient(45deg, rgb(214, 0, 0), rgb(255, 162, 0));
-            background-repeat: no-repeat; /* Prevents the background from repeating */
-    background-attachment: fixed; /* Ensures the background stays fixed when scrolling */
-    background-size: cover;
-        }
-        .quiz-container { max-width: 400px; margin: auto; display:none; }
-        .question { font-size: 20px; margin-bottom: 10px; }
-        .options { list-style-type: none; padding: 0; }
-        .options li { margin-bottom: 10px; }
-        button { padding: 10px 20px; }
-        * {
-  box-sizing: border-box;
-}
-.heading{
-    margin-top:0;
-    color:aliceblue;
-    font-size: 80px;
-    text-align: center;
-    
-}
-.submit{
-    outline: none;
-    background-color: transparent;
-    margin: 0%;
-    border: none;
-    transition: 0.1s;
-    font-size: 20px;
-    padding: 15px 25px;
-    color: #f0f0f0;
-    border: 5px solid rgb(255, 255, 255);
-    margin-top: 20px;
-    cursor: pointer;
-}
-.submit:active{
-    background-color: rgb(255, 166, 0); 
-    color:aliceblue;
-}
-.custom-select {
-            position: absolute;
-            display: inline-block;
-            width: 300px;
-            left:50%;
-            top:50%;
-            transform: translate(-50%,-50%);
-        }
-        .custom-select:focus-within select {
-            
-        }
-        .hideselect {
-            
-        }
-        .custom-select > div{
-            transition: 0.2s;
-            height:220px;
-            overflow: hidden;
-            margin-top: 20px;
-            border: 1px solid #ffd7aa;
-            box-sizing:content-box;
-            
-            
-        }
-        .hideDv{
-            height: 0 !important;
-        }
-        #selectInput {
-            width: 100%;
-            box-sizing: border-box;
-            height: 50px;
-            padding: 0%;
-            border-radius: 25px;
-            outline: none;
-            border:none;
-            transition: 0.2s;
-            font-size: 25px;
-            padding: 10px ;
-            
-        }
-        
-        .default-border-radius{
-            border-radius: 5px !important;
-        }
-        #mySelect {
-            width: 100%;
-            clip-path: inset(10px);
-            outline: none;
-            margin-top: 5px;
-            background-color: transparent;
-            border-radius: 5px;
-            height:220px;
-            min-height: 0px;
-            margin:0;
-            border: 0px solid #ff4d0000;
-            appearance: none; /* Ẩn mũi tên mặc định trên iOS */
-    -webkit-appearance: none;
-            display: flex;
-            padding: 10px;
-            flex-direction: column;
-            gap:10px;
-            overflow-y: auto;
-        }
-
-        #mySelect div {
-            padding: 10px;
-            cursor: pointer;
-            background-color: coral;
-            -webkit-tap-highlight-color: transparent;
-            box-sizing: border-box;
-            color:aliceblue;
-            font-size: 20px;
-            height:calc(212.5px * 0.2);
-            transition: 0.2s ;
-        }
-        #mySelect div :active {
-background-color: aliceblue;
-color:black;
-        }
-        option:hover {
-            color:black;
-            background-color: #f0f0f0;
-            transition: 0.2s;
-        }
-        ::-webkit-scrollbar {
-    display: none; /* Ẩn scrollbar */
-}
-* {
-    scrollbar-width: none; /* Không hiển thị scrollbar */
-}
-#storiesDiv{
-    display:none;
-    height:auto;
-    position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-}
-#storySelect{
-    display: inline-block;
-    width:400px;
-    height:400px;
-    
-    display: inline-flex;
-    flex-direction: column;
-    gap:5%;
-}
-@media (max-width: 480px) {
-    #storySelect{
-    width:90vw;
-    height:90vw;
-    }
-}
-#storySelect div{
-height:calc(20% - 20% * 0.2);
-display:flex;
-align-items: center;
-justify-content: center;
-background-color: rgb(173, 66, 0);
-cursor: pointer;
-}
-#storySelect div p{
-    
-color:rgb(255, 255, 255);
-}
-#storiesDiv h1{
-    display:inline-block;
-    color:aliceblue;
-    font-size: 30px;
-    width:100vw;
-    margin-bottom: 40px;
-}
-@media (max-width: 480px) {
-    #storiesDiv h1{
-font-size: 10vw;
-    }
-}
-#waiting{
-    position: absolute;
-    left:50%;
-    top:50%;
-    transform: translate(-50%,-50%);
-}
-#waiting h1{
-    color:#f0f0f0;
-    font-size: 40px;
-}
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="waiting" style="display:none">
         <h1>Waiting for your turn</h1>
+        </div>
+        <div id='shootingPanel' style="display:none">
+            <img src="./source/gun-png-transparent-16.png">
         </div>
 <div id="storiesDiv">   
     <h1>Chọn 1 bí mật gần giống với bạn nhất</h1>
 <div id="storySelect"></div>   
 </div> 
 <div class="quiz-container">
-    <div id="question" class="question">Waiting for the quiz to start...</div>
+    
     <ul id="options" class="options"></ul>
 </div>
 <div class="custom-select" id="StudentsList" >
@@ -230,6 +28,34 @@ font-size: 10vw;
 
 <script src="https://cdn.socket.io/4.8.0/socket.io.min.js" integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd" crossorigin="anonymous"></script>
 <script>
+    edT=0;
+    currentTime=new Date()
+    function getTime(){
+        console.log(performance.now()-edT,currentTime)
+        return new Date(currentTime.getTime() + (performance.now()-edT) );
+        
+    }
+    function fetchTime(){
+        const startTime = performance.now();
+        fetch('http://localhost:3000/ntp-time', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  }})
+  .then(response => response.json()) // Change to text() since we're returning a string
+  .then(data => {
+    
+    const ntpTime = new Date(data.ntpTime);
+    const endTime = performance.now();
+    console.log(data)
+    // Calculate the delay time
+    const delayTime = (endTime - startTime)/1000;
+    if (delayTime>0.01)fetchTime()
+    else {edT=endTime;currentTime=ntpTime}
+  })
+    }
+    fetchTime()
+    var canShoot=false;
     const socket = io('http://localhost:3000');
     const questionDiv = document.getElementById('question');
     const optionsDiv = document.getElementById('options');
@@ -237,38 +63,37 @@ font-size: 10vw;
     socket.on('stories', (data) => {
 console.log(data)
 document.querySelector('#StudentsList').style.display="none"
-data.forEach(function(item){
-    const dv=document.createElement('div')
-    dv.innerHTML=`<p>${stories[item]}</p>`
-    dv.addEventListener('click',()=>{
-        socket.emit("selectStory",item)
-        document.querySelector('#storiesDiv').style.display="none"
-        document.querySelector('#waiting').style.display="block"
+
+document.querySelector('#waiting').style.display="block"
     })
-    document.querySelector('#storySelect').appendChild(dv)
-})
-document.querySelector('#storiesDiv').style.display="inline-block"
-    })
+    const selectLetter=["A","B","C","D"]
+    socket.on('disconnect', () => {
+        location.reload();
+    console.log('Đã ngắt kết nối với server.');
+});
     socket.on('question', (data) => {
         // Hiển thị câu hỏi
         document.querySelector("#waiting").style.display='none'
         document.querySelector("#storySelect").style.display='none'
 document.querySelector(".quiz-container").style.display='block'
+document.querySelector('#shootingPanel').style.display="none"
         console.log(data)
-        questionDiv.innerText = data.question;
+        //questionDiv.innerText = data.question;
 
         // Hiển thị các tùy chọn câu trả lời
         optionsDiv.innerHTML = '';
         data.options.forEach((option, index) => {
-            const optionElement = document.createElement('li');
-            const button = document.createElement('button');
-            button.innerText = option;
-            button.addEventListener('click', () => {
+            const optionElement = document.createElement('div');
+            const h1 = document.createElement('h1');
+            h1.innerText = selectLetter[index];
+            optionElement.addEventListener('click', () => {
                 socket.emit('submitAnswer', { answer: index + 1 });
-                questionDiv.innerText = "Waiting for other players...";
+                 document.querySelector('#waiting').style.display="block"
                 optionsDiv.innerHTML = ''; // Ẩn lựa chọn sau khi trả lời
+                document.querySelector('#shootingPanel').style.display="block"
+                canShoot=true;
             });
-            optionElement.appendChild(button);
+            optionElement.appendChild(h1);
             optionsDiv.appendChild(optionElement);
         });
     });
@@ -386,6 +211,6 @@ function search(){
             }
         });
 </script>
-
+<script src='./shoot.js'></script>
 </body>
 </html>

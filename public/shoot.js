@@ -1,16 +1,18 @@
 let lastX, lastY, lastZ;
 let shakeThreshold = 5; // Ngưỡng để xác định rung mạnh hay yếu
 let shakeTimeout;
-alert("shot")
+const sound = new Audio('./pistolShot.mp3');
+sound.load();
+
 // Hàm xử lý khi lắc điện thoại
 function onShake() {
     //alert("shot")
   // Đây là nơi bạn có thể thực hiện hành động, ví dụ: bắn súng
   console.log("Phone shake detected!");
-  const sound = new Audio('./pistolShot.mp3');
+  socket.emit('shoot',getTime())
 
 // Play the sound
-sound.play();
+//sound.play();
 }
 
 // Lắng nghe sự kiện chuyển động của thiết bị
@@ -42,7 +44,7 @@ window.addEventListener("devicemotion", event => {
       (deltaY > shakeThreshold && deltaZ > shakeThreshold)) {
       document.querySelector('h1').innerText=deltaX+" "+deltaY+" "+deltaZ  
     // Ngăn việc lắc liên tục
-    if (!shakeTimeout) {
+    if (!shakeTimeout&&canShoot==true) {
       onShake(); // Gọi hàm khi phát hiện lắc
       shakeTimeout = setTimeout(() => shakeTimeout = null, 1000); // Đặt thời gian chờ 1 giây để tránh lặp
     }
@@ -52,4 +54,11 @@ window.addEventListener("devicemotion", event => {
   lastX = currentX;
   lastY = currentY;
   lastZ = currentZ;
+});
+document.addEventListener('keydown', function(event) {
+  if (event.code === 'Space') { // Kiểm tra nếu phím nhấn là Space
+      event.preventDefault(); // Ngăn chặn hành động mặc định của phím cách (cuộn trang)
+      onShake() // Phát âm thanh
+      console.log(getTime())
+  }
 });

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Host</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <div id="pattern"></div>
+    <h1 id="heading">Quizz Sinh</h1>
+    <div id="hostInfo"></div>
+   <img id="bdImg" src="../target_PNG64.png">
+    <button id="startButton">Start Quiz</button>
+<h1 id='vsPanel'></h1>
+<div id="battle" style="display:none">
+    <h1 style="display:none">shoot!!!</h1>
+</div>
+<div class="quiz-container" style="display:none">
+    <div>
+    <h1 id='question'></h1>
+    </div>
+    <ul id="options" class="options"></ul>
+</div>
+    <script>
+        const socket = io('http://localhost:3000');
+let isHosting=false;
+const questionDiv = document.getElementById('question');
+    const optionsDiv = document.getElementById('options');
+    const sound = new Audio('../pistolShot.mp3');
+    sound.load();
+        // Gán host
+        socket.emit('host',11122008);
+        socket.on('shoot', (data) => {
+            sound.cloneNode().play();
+        })
+
+        socket.on('host_assigned', (message) => {
+            document.getElementById('hostInfo').innerText = message;
+        });
+        socket.on('shootTime', (time) => {
+            document.querySelector('#battle').style.display='flex'
+            setTimeout(() => {document.querySelector('#battle').querySelector("h1").style.display='block'},time*1000)
+        });
+        socket.on('battle',()=>{
+            document.querySelector('.quiz-container').style.animation=" slideOut 2s ease-in-out";
+            document.querySelector('.quiz-container').style.opacity=0;
+        })
+        socket.on('questionData', (data) => {
+            document.querySelector('#battle').style.display='none'
+            document.querySelector('#battle').querySelector("h1").style.display='none'
+            optionsDiv.innerHTML=""
+            console.log(123)
+            questionDiv.innerText=data.question.question
+            
+            setTimeout(() => {
+            document.querySelector('.quiz-container').style.animation=" slideIn 2s ease-in-out";
+            document.querySelector('.quiz-container').style.opacity=1;
+            },4000)
+            document.querySelector('#heading').style.display="none"
+            document.querySelector('#bdImg').style.display="none"
+            document.querySelector('#vsPanel').innerText=`${data.answeringPlayers[0].name} vs ${data.answeringPlayers[1].name}`
+            document.querySelector('#vsPanel').style.animation=" slideIn 2s ease-in-out";
+            document.querySelector('#vsPanel').style.opacity=1;
+            setTimeout(() => {
+            document.querySelector('#vsPanel').style.animation=" slideOut 2s ease-in-out";
+            document.querySelector('#vsPanel').style.opacity=0;
+            },4000)
+            document.querySelector('.quiz-container').style.display="block"
+            data.question.options.forEach((option, index) => {
+            const optionElement = document.createElement('div');
+            const h1 = document.createElement('h1');
+            h1.innerText = option;
+            optionElement.addEventListener('click', () => {
+                socket.emit('submitAnswer', { answer: index + 1 });
+                 document.querySelector('#waiting').style.display="block"
+                optionsDiv.innerHTML = ''; // Ẩn lựa chọn sau khi trả lời
+            });
+            optionElement.appendChild(h1);
+            optionsDiv.appendChild(optionElement);
+        });
+        });
+        // Gửi câu hỏi đến người chơi
+        document.getElementById('startButton').onclick = () => {
+            //const question = document.getElementById('questionInput').value;
+            socket.emit('start_quiz',11122008);
+        };
+        document.addEventListener('keydown', function(event) {
+  if (event.code === 'Space' && isHosting==false) {
+    isHosting=true
+    socket.emit('start_quiz',11122008);
+  }
+});
+    </script>
+</body>
+</html>
