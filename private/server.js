@@ -53,6 +53,11 @@ function getRandomExcept(exclude,max) {
     return num;
   }
   function sendQuestion1(){
+    if (currentQuestionIndex >= questions.length) {io.emit('quizEnd', { message: "Quiz completed!" });return}
+            
+                // Kết thúc quiz
+                
+            
     if(groups.length<2)groups=JSON.parse(JSON.stringify(origingroups));
     answeringPlayers=[]
     for(let i=0;i<2;i+=1){
@@ -71,13 +76,14 @@ function getRandomExcept(exclude,max) {
                    //console.log(answeringPlayer)
                    io.emit('quizStart', { message: "Quiz started!" });
                    host.emit('questionData', {answeringPlayers:answeringPlayers.map(obj => ({id:obj.id,name:obj.name})),question:questions[currentQuestionIndex]});
+                   setTimeout(() => {
                    if(answeringPlayers.length>0)answeringPlayers.forEach(s =>s.emit('question', questions[currentQuestionIndex]));
-                   
+                }, 4000)
   }
   function sendQuestion(){
     //console.log(origingroups)
-        if(origingroups.length>=2)setTimeout(() => {sendQuestion1()},3000)
-            else setTimeout(() => {sendQuestion()}, 2000);
+        if(origingroups.length>=2)sendQuestion1()
+            else setTimeout(() => {sendQuestion()},1000);
     
   }
 // Kết nối client
@@ -138,7 +144,7 @@ socket.selectedStory=stories[i];
         console.log(`Host assigned: ${host}`);
          
         socket.emit('host_assigned', `You are the host. Your code is: ${socket.id}`);
-        
+        players.forEach(p => p.answered = false);
             currentQuestionIndex = 0;
  answersReceived = 0;
  answeringPlayers=[];
@@ -167,7 +173,7 @@ socket.answered=true;
                 currentQuestionIndex++;
                 answersReceived = 0;
                 
-                if (currentQuestionIndex < questions.length) {
+                
                 // Reset trạng thái cho câu hỏi mới
                 host.emit('battle','')
                 setTimeout(() => {
@@ -185,10 +191,8 @@ timeShoot.setSeconds(timeShoot.getSeconds() + randomSeconds);
                 },10000)
                 // Gửi câu hỏi mới cho tất cả người chơi
                 
-            } else {
-                // Kết thúc quiz
-                io.emit('quizEnd', { message: "Quiz completed!" });
-            }
+            
+            
         
     });
 
