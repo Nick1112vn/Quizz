@@ -76,7 +76,7 @@ function getRandomExcept(exclude,max) {
   }
   function sendQuestion(){
     //console.log(origingroups)
-        if(origingroups.length>=2)sendQuestion1()
+        if(origingroups.length>=2)setTimeout(() => {sendQuestion1()},3000)
             else setTimeout(() => {sendQuestion()}, 2000);
     
   }
