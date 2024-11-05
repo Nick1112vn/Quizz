@@ -78,7 +78,7 @@ function getRandomExcept(exclude,max) {
                    host.emit('questionData', {answeringPlayers:answeringPlayers.map(obj => ({id:obj.id,name:obj.name})),question:questions[currentQuestionIndex]});
                    setTimeout(() => {
                    if(answeringPlayers.length>0)answeringPlayers.forEach(s =>s.emit('question', questions[currentQuestionIndex]));
-                }, 4000)
+                }, 6000)
   }
   function sendQuestion(){
     //console.log(origingroups)

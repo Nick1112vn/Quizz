@@ -17,6 +17,9 @@
 <div id="battle" style="display:none">
     <h1 style="display:none">shoot!!!</h1>
 </div>
+<div id="winner" style="display:none">
+    <h1 style="display:none"></h1>
+</div>
 <div class="quiz-container" style="display:none">
     <div>
     <h1 id='question'></h1>
@@ -47,9 +50,17 @@ const questionDiv = document.getElementById('question');
             document.querySelector('.quiz-container').style.animation=" slideOut 2s ease-in-out";
             document.querySelector('.quiz-container').style.opacity=0;
         })
+        socket.on('winner',(data)=>{
+            document.querySelector('#winner').style.display='flex'
+            setTimeout(() => {
+                document.querySelector('#winner').querySelector("h1").innerText=`the winner is: ${data.name}`;
+                document.querySelector('#winner').querySelector("h1").style.display='block'},1000)
+        })
         socket.on('questionData', (data) => {
             document.querySelector('#battle').style.display='none'
             document.querySelector('#battle').querySelector("h1").style.display='none'
+            document.querySelector('#winner').style.display='none'
+            document.querySelector('#winner').querySelector("h1").style.display='none'
             optionsDiv.innerHTML=""
             console.log(123)
             questionDiv.innerText=data.question.question

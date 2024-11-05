@@ -55,7 +55,7 @@
     else {edT=endTime;currentTime=ntpTime}
   })
     }
-    fetchTime()
+    //fetchTime()
     var canShoot=false;
     const socket = io('https://time-vu8k.onrender.com');
     const questionDiv = document.getElementById('question');
@@ -106,7 +106,10 @@ document.querySelector('#shootingPanel').style.display="none"
         document.querySelector(".quiz-container").style.display='none'
     });
     socket.on('quizStart', (data) => {
-
+        document.querySelector('#waiting').style.display="block"
+        document.querySelector('#waiting').querySelector('h1').innerText="Waiting for your turn"
+        document.querySelector('#shootingPanel').style.display="none"
+        document.querySelector(".quiz-container").style.display='none'
 
     })
     socket.on('reset', (data) => {
