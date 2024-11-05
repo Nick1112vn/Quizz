@@ -42,7 +42,7 @@ window.addEventListener("devicemotion", event => {
   if ((deltaX > shakeThreshold && deltaY > shakeThreshold) ||
       (deltaX > shakeThreshold && deltaZ > shakeThreshold) ||
       (deltaY > shakeThreshold && deltaZ > shakeThreshold)) {
-      document.querySelector('h1').innerText=deltaX+" "+deltaY+" "+deltaZ  
+      //document.querySelector('h1').innerText=deltaX+" "+deltaY+" "+deltaZ  
     // Ngăn việc lắc liên tục
     if (!shakeTimeout&&canShoot==true) {
       onShake(); // Gọi hàm khi phát hiện lắc

@@ -204,16 +204,17 @@ timeShoot.setSeconds(timeShoot.getSeconds() + randomSeconds);
         //console.log(`Player disconnected: ${socket.id}`);
         players = players.filter(p => p.id !== socket.id);
         if(!socket.name)return;
-        if (answeringPlayers.includes(socket)&&!socket.answered){answeringPlayers.forEach(s =>s.shootTime=null)
-            players.forEach(p => p.answered = false);
-            timeShoot=null;
-            sendQuestion();
-        }
+        
         const index=students.findIndex(innerArray => innerArray.includes(socket.name))
         students[index].splice(students[index].indexOf(socket.name),1)
         rdPlayers[index].splice(students[index].indexOf(socket.name),1)
         answeringPlayers.splice(answeringPlayers.indexOf(socket),1)
         if(students[index].length<=0)origingroups.splice(origingroups.indexOf(index),1);
+        if (answeringPlayers.includes(socket)&&!socket.answered){answeringPlayers.forEach(s =>s.shootTime=null)
+            players.forEach(p => p.answered = false);
+            timeShoot=null;
+            sendQuestion();
+        }
         //console.log(students,index,origingroups)
     });
 });
