@@ -92,9 +92,10 @@ io.on('connection', (socket) => {
     socket.on('shoot', (sentTime) => {
         const now = new Date(sentTime)
         if (!answeringPlayers.includes(socket)||!socket.answered) return;
+        if(timeShoot==null){host.emit('shoot',{state:'lose',answer:false}); return;}
         if(timeShoot!=null&&now>timeShoot)host.emit('shoot',{state:'winner',answer:socket.answer}) 
         else host.emit('shoot',{state:'lose',answer:socket.answer})
-        if(socket.answer!=questions[currentQuestionIndex].answer)return;
+        if(socket.answer!=true)return;
         //console.log(timeShoot)
         if(timeShoot!=null){
             
@@ -189,7 +190,7 @@ socket.answered=true;
 // Add the random seconds to the current time
 timeShoot.setSeconds(timeShoot.getSeconds() + randomSeconds);
                     host.emit('shootTime',randomSeconds)
-                    currentTimeout=setTimeout(() => {host.emit('winner',null)
+                    currentTimeout=setTimeout(() => {host.emit('winner',"no one because of the timeout!")
                         answeringPlayers.forEach(s =>s.shootTime=null)
                         players.forEach(p => p.answered = false);
                         timeShoot=null;
