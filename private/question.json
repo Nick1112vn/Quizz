@@ -1,0 +1,92 @@
+[
+    {
+        "question": "Câu 1: Nguyên nhân gây bệnh cho người và động vật là do?",
+        "options": [
+            "A. các tác nhân vật lí và hóa học.",
+            "B. các tác nhân sinh học.",
+            "C. yếu tố di truyền.",
+            "D. Tất cả các nguyên nhân trên."
+        ],
+        "answer": 4
+    },
+    {
+        "question": "Câu 2: Phát biểu nào sai khi nói về các tác nhân vật lí và cách thức gây bệnh của chúng?",
+        "options": [
+            "A. Nhiệt độ cao gây biến tính protein, gây bỏng.",
+            "B. Ánh sáng mặt trời mạnh gây tổn thương DNA, có thể gây ung thư da.",
+            "C. Âm thanh lớn kéo dày gây giập nát, phá hủy, tổn thương mô và cơ quan.",
+            "D. Dòng điện gây giật, bỏng tại chỗ hoặc toàn thân"
+        ],
+        "answer": 4
+    },
+    {
+        "question": "Câu 3: Ở người và động vật, chức năng bảo vệ cơ thể chống lại các tác nhân gây bệnh do",
+        "options": [
+            "A. hệ vận động đảm nhận.",
+            "B. hệ miễn dịch đảm nhận.",
+            "C. hệ sinh dục đảm nhận.",
+            "D. hệ bài tiết đảm nhận."
+        ],
+        "answer": 2
+    },
+    {
+        "question": "Câu 4: Phát biểu nào sai khi nói về tác dụng sốt bảo vệ cơ thể?",
+        "options": [
+            "A. Giúp các tế bào T độc lưu hành trong máu và tiết ra chất độc tiêu diệt mầm bệnh.",
+            "B. Làm gan tăng nhận sắt từ máu, đây là chất cần cho sinh sản của vi khuẩn.",
+            "C. Làm tăng hoạt động thực bào của bạch cầu.",
+            "D. Ức chế vi khuẩn, virus tăng sinh."
+        ],
+        "answer": 1
+    },
+    {
+        "question": "Câu 5: Tế bào T độc được hoạt hóa nhờ?",
+        "options": [
+            "A. tế bào T hỗ trợ tiết cytokine và nhờ sự tương tác với tế bào B.",
+            "B. tế bào T hỗ trợ tiết cytokine và nhờ sự tương tác với tế bào trình diện kháng nguyên.",
+            "C. tế bào T hỗ trợ tiết cytokine và nhờ sự tương tác với tương bào.",
+            "D. tế bào B tiết cytokine và nhờ sự tương tác với tế bào trình diện kháng nguyên."
+        ],
+        "answer": 2
+    },
+    {
+        "question": "Câu 6: Nếu mầm bệnh qua không khí và giọt bắn xâm nhập vào hệ hô hấp, hàng rào bảo vệ đầu tiên của hệ miễn dịch tiêu diệt mầm bệnh như thế nào?",
+        "options": [
+            "A. Hệ hô hấp tiết ra enzyme lysosome tiêu diệt mầm bệnh.",
+            "B. Lớp dịch nhảy trong khí quản, phế quản giữ bụi và mầm bệnh, sau đó các lông nhỏ đẩy dịch nhầy lên hầu, vào thực quản và dạ dày.",
+            "C. pH trong khí quản và phế quản thấp, ức chế mầm bệnh phát triển.",
+            "D. Lớp sừng và lớp biểu bì chết trong khoang mũi ép chặt với nhau ngăn chặn mầm bệnh xâm nhập."
+        ],
+        "answer": 2
+    },
+    {
+        "question": "Câu 7: Đâu không phải là các đáp ứng của miễn dịch không đặc hiệu?",
+        "options": [
+            "A. Thực bào.",
+            "B. Sốt.",
+            "C. Viêm.",
+            "D. Hình thành kháng thể."
+        ],
+        "answer": 4
+    },
+    {
+        "question": "Câu 8: Phát biểu nào sai khi nói về phản ứng dị ứng?",
+        "options": [
+            "A. Dị ứng là phản ứng quá mức của cơ thể đối với kháng nguyên nhất định.",
+            "B. Chất gây ra triệu chứng dị ứng chủ yếu là histamine.",
+            "C. Tất cả các phản ứng dị ứng đều là sốc phản vệ.",
+            "D. Các triệu chứng phổ biến khi bị dị ứng là mẩn ngứa, hắt hơi, sổ mũi, khó thở,…"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "Câu 9: Di căn là quá trình tế bào u ác tính có thể",
+        "options": [
+            "A. tách ra khỏi khối u theo hệ thần kinh đến các vị trí khác trong cơ thể và hình thành khối u lành tính mới.",
+            "B. tách ra khỏi khối u theo đường máu hoặc bạch huyết đến các vị trí khác trong cơ thể và hình thành khối u ác tính mới.",
+            "C. tách ra khỏi khối u và tiêu diệt các mầm bệnh khác của cơ thể.",
+            "D. di chuyển đến vị trí khác của cơ thể và làm tăng khả năng miễn dịch của cơ quan tại vị trí mà chúng di chuyển tới."
+        ],
+        "answer": 2
+    }
+]

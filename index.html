@@ -56,8 +56,29 @@
   })
     }
     //fetchTime()
+    var elem = document.documentElement;
+    function openFullscreen() {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+}
+
+/* Close fullscreen */
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) { /* Safari */
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { /* IE11 */
+    document.msExitFullscreen();
+  }
+}
     var canShoot=false;
-    const socket = io('https://time-vu8k.onrender.com');
+    const socket = io('https://quizzsinh.onrender.com');
     const questionDiv = document.getElementById('question');
     const optionsDiv = document.getElementById('options');
      document.querySelector('#waiting').style.display="none"
@@ -65,7 +86,7 @@
 console.log(data)
 document.querySelector('#StudentsList').style.display="none"
 
-document.querySelector('#waiting').style.display="block"
+document.querySelector('#waiting').style.display="flex"
     })
     const selectLetter=["A","B","C","D"]
     socket.on('disconnect', () => {
@@ -89,10 +110,11 @@ document.querySelector('#shootingPanel').style.display="none"
             h1.innerText = selectLetter[index];
             optionElement.addEventListener('click', () => {
                 socket.emit('submitAnswer', { answer: index + 1 });
-                 document.querySelector('#waiting').style.display="block"
+                 document.querySelector('#waiting').style.display="flex"
                 optionsDiv.innerHTML = ''; // Ẩn lựa chọn sau khi trả lời
                 document.querySelector('#shootingPanel').style.display="block"
                 canShoot=true;
+                openFullscreen()
             });
             optionElement.appendChild(h1);
             optionsDiv.appendChild(optionElement);
@@ -100,13 +122,13 @@ document.querySelector('#shootingPanel').style.display="none"
     });
 
     socket.on('quizEnd', (data) => {
-        document.querySelector('#waiting').style.display="block"
+        document.querySelector('#waiting').style.display="flex"
         document.querySelector('#waiting').querySelector('h1').innerText="Quiz end!"
         document.querySelector('#shootingPanel').style.display="none"
         document.querySelector(".quiz-container").style.display='none'
     });
     socket.on('quizStart', (data) => {
-        document.querySelector('#waiting').style.display="block"
+        document.querySelector('#waiting').style.display="flex"
         document.querySelector('#waiting').querySelector('h1').innerText="Waiting for your turn"
         document.querySelector('#shootingPanel').style.display="none"
         document.querySelector(".quiz-container").style.display='none'
@@ -114,7 +136,7 @@ document.querySelector('#shootingPanel').style.display="none"
     })
     socket.on('reset', (data) => {
  document.querySelector('#shootingPanel').style.display="none"
-
+ closeFullscreen()
 })
     document.querySelector("#StudentsList").querySelector(".submit").addEventListener("click",function(){
         socket.emit('name', document.querySelector("#mySelect").value);

@@ -94,7 +94,9 @@ io.on('connection', (socket) => {
     // Gửi câu hỏi hiện tại cho người chơi mới
     socket.on('shoot', (sentTime) => {
         if (!answeringPlayers.includes(socket)||!socket.answered) return;
-        host.emit('shoot','')
+        if(timeShoot!=null&&now>timeShoot)host.emit('shoot',{state:'winner',answer:socket.answer==questions[currentQuestionIndex].answer}) 
+        else host.emit('shoot',{state:'lose',answer:socket.answer==questions[currentQuestionIndex].answer})
+        if(socket.answer!=questions[currentQuestionIndex].answer)return;
         //console.log(timeShoot)
         if(timeShoot!=null){
             const now = new Date(sentTime)

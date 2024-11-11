@@ -27,16 +27,25 @@
     <ul id="options" class="options"></ul>
 </div>
     <script>
-        const socket = io('https://time-vu8k.onrender.com');
+        const socket = io('https://quizzsinh.onrender.com');
 let isHosting=false;
 const questionDiv = document.getElementById('question');
     const optionsDiv = document.getElementById('options');
     const sound = new Audio('../pistolShot.mp3');
     sound.load();
+    const sound1 = new Audio('../source/empty-gun-shot-6209.mp3');
+    sound.load();
+    const sound2 = new Audio('../source/slime-splat-with-drips-5-219260.mp3');
+    sound.load();
+    const bgsound = new Audio('../source/blood-chillingly-creepy-atmospheres-183561.mp3');
+    bgsound.loop = true;
+    bgsound.play();
         // Gán host
         socket.emit('host',11122008);
         socket.on('shoot', (data) => {
-            sound.cloneNode().play();
+            if(data.answer==true)sound.cloneNode().play();
+            else sound1.cloneNode().play();
+            if(data.state=="winner")sound2.cloneNode().play();
         })
 
         socket.on('host_assigned', (message) => {
