@@ -10,6 +10,7 @@ const students=[[],[],[],[],[]]
 const stories=require("../stories.json");
 const origingroups=[];
 let currentTimeout;
+let currentTimeout1;
 let groups=[];
 let host;
 let timeShoot=null;
@@ -27,11 +28,7 @@ const io = socketIo(server,{
     }
 });
 
-const originQuestions = [
-    { question: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Rome"], answer: 3 },
-    { question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Venus"], answer: 2 },
-    { question: "What is the largest ocean on Earth?", options: ["Atlantic", "Pacific", "Indian", "Arctic"], answer: 2 }
-];
+const originQuestions = require('./question.json')
 questions=originQuestions.map(obj => ({question:obj.question,options:obj.options}))
 let players = [];
 let rdPlayers=[[],[],[],[],[]];
@@ -93,13 +90,14 @@ io.on('connection', (socket) => {
 
     // Gửi câu hỏi hiện tại cho người chơi mới
     socket.on('shoot', (sentTime) => {
+        const now = new Date(sentTime)
         if (!answeringPlayers.includes(socket)||!socket.answered) return;
-        if(timeShoot!=null&&now>timeShoot)host.emit('shoot',{state:'winner',answer:socket.answer==questions[currentQuestionIndex].answer}) 
-        else host.emit('shoot',{state:'lose',answer:socket.answer==questions[currentQuestionIndex].answer})
+        if(timeShoot!=null&&now>timeShoot)host.emit('shoot',{state:'winner',answer:socket.answer}) 
+        else host.emit('shoot',{state:'lose',answer:socket.answer})
         if(socket.answer!=questions[currentQuestionIndex].answer)return;
         //console.log(timeShoot)
         if(timeShoot!=null){
-            const now = new Date(sentTime)
+            
 
     
         clearTimeout(currentTimeout);
@@ -144,7 +142,10 @@ socket.selectedStory=stories[i];
     socket.on('start_quiz', (key) => {
         console.log(origingroups)
         if(hostKey!=key||origingroups.length<2)return;
+        clearTimeout(currentTimeout);
+        clearTimeout(currentTimeout1);
         host = socket;
+        timeShoot=null;
         players=players.filter(player => player !== socket);
         console.log(`Host assigned: ${host}`);
          
@@ -181,7 +182,7 @@ socket.answered=true;
                 
                 // Reset trạng thái cho câu hỏi mới
                 host.emit('battle','')
-                setTimeout(() => {
+                currentTimeout1=setTimeout(() => {
                     
                     const randomSeconds = Math.floor(Math.random() * (12 - 6 + 1)) + 6;
                     timeShoot=new Date()
