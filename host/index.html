@@ -61,7 +61,7 @@ const questionDiv = document.getElementById('question');
             
         })
         socket.on('playerCount', (message) => {
-            document.getElementById('plrCount').innerText = message;
+            document.getElementById('plrCount').innerText = message-1;
         });
         socket.on('host_assigned', (message) => {
             document.getElementById('hostInfo').innerText = message;
@@ -88,7 +88,7 @@ const questionDiv = document.getElementById('question');
                 document.querySelector('#winner').querySelector("h1").style.display='block'},1000)
                 setTimeout(() => {
                 document.querySelector('#result').style.display='flex'
-                },5000)
+                },8000)
         })
         socket.on('miss',(data)=>{
             document.querySelector('#winner').style.display='flex'
@@ -97,7 +97,7 @@ const questionDiv = document.getElementById('question');
                 document.querySelector('#winner').querySelector("h1").style.display='block'},1000)
                 setTimeout(() => {
                 document.querySelector('#result').style.display='flex'
-                },5000)
+                },8000)
         })
         socket.on('questionData', (data) => {
             document.querySelector('#instruction1').style.display="none"
@@ -148,7 +148,7 @@ document.querySelector('#result').style.display='none'
         document.addEventListener('keydown', function(event) {
             if (event.key >= '0' && event.key <= '9') {
     isHosting=true
-    socket.emit('start_quiz',11122008,Number(event.key));
+    socket.emit('start_quiz',11122008,Number(event.key)-1);
   }
 });
 socket.on('quizEnd', (data) => {

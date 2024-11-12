@@ -28,17 +28,7 @@
 
 <script src="https://cdn.socket.io/4.8.0/socket.io.min.js" integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd" crossorigin="anonymous"></script>
 <script>
-    if (screen.orientation && screen.orientation.lock) {
-    screen.orientation.lock('portrait')  // hoặc 'landscape'
-        .then(function() {
-            console.log("Màn hình đã khóa thành công.");
-        })
-        .catch(function(error) {
-            console.error("Khóa xoay màn hình thất bại: ", error);
-        });
-} else {
-    console.log("API Screen Orientation không được hỗ trợ trên thiết bị này.");
-}
+    
     edT=0;
     currentTime=new Date()
     function getTime(){
@@ -67,6 +57,45 @@
   })
     }
     //fetchTime()
+    function lockOrientation() {
+    // Đưa trang vào chế độ toàn màn hình trước khi khóa xoay
+    let elem = document.documentElement;
+
+    // Kiểm tra và yêu cầu fullscreen
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen().then(() => {
+            lockScreenOrientation();
+        });
+    } else if (elem.mozRequestFullScreen) { // Firefox
+        elem.mozRequestFullScreen().then(() => {
+            lockScreenOrientation();
+        });
+    } else if (elem.webkitRequestFullscreen) { // Chrome, Safari và Opera
+        elem.webkitRequestFullscreen().then(() => {
+            lockScreenOrientation();
+        });
+    } else if (elem.msRequestFullscreen) { // IE/Edge
+        elem.msRequestFullscreen().then(() => {
+            lockScreenOrientation();
+        });
+    } else {
+        lockScreenOrientation(); // Nếu không có fullscreen API, thử khóa xoay
+    }
+}
+
+function lockScreenOrientation() {
+    if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('portrait') // Hoặc 'landscape'
+            .then(function() {
+                console.log("Màn hình đã khóa thành công.");
+            })
+            .catch(function(error) {
+                console.error("Khóa xoay màn hình thất bại: ", error);
+            });
+    } else {
+        console.log("API Screen Orientation không được hỗ trợ trên thiết bị này.");
+    }
+}
     var elem = document.documentElement;
     function openFullscreen() {
   if (elem.requestFullscreen) {
@@ -126,7 +155,7 @@ document.querySelector('#shootingPanel').style.display="none"
                 optionsDiv.innerHTML = ''; // Ẩn lựa chọn sau khi trả lời
                 document.querySelector('#shootingPanel').style.display="block"
                 canShoot=true;
-                openFullscreen()
+                lockOrientation();
             });
             optionElement.appendChild(h1);
             optionsDiv.appendChild(optionElement);
