@@ -87,7 +87,7 @@ function getRandomExcept(exclude,max) {
 io.on('connection', (socket) => {
     //console.log(`Player connected: ${socket.id}`);
     players.push(socket);
-
+    io.emit('playerCount',players.length)
     // Gửi câu hỏi hiện tại cho người chơi mới
     socket.on('shoot', (sentTime) => {
         const now = new Date()
@@ -119,7 +119,7 @@ players.forEach(p => p.answered = false);
 timeShoot=null;
 setTimeout(() => {
 sendQuestion();
-},15000)
+},20000)
 
         
     }  
@@ -140,7 +140,7 @@ sendQuestion();
         if(!socket.stories||!socket.stories.includes(i)||socket.selectedStory)return;
 socket.selectedStory=stories[i];
     });
-    socket.on('start_quiz', (key) => {
+    socket.on('start_quiz', (key,questionI) => {
         console.log(origingroups)
         if(hostKey!=key||origingroups.length<2)return;
         clearTimeout(currentTimeout);
@@ -152,7 +152,7 @@ socket.selectedStory=stories[i];
          
         socket.emit('host_assigned', `You are the host. Your code is: ${socket.id}`);
         players.forEach(p => p.answered = false);
-            currentQuestionIndex = 0;
+            currentQuestionIndex = questionI;
  answersReceived = 0;
  answeringPlayers=[];
  rdPlayers=JSON.parse(JSON.stringify(students));
@@ -194,7 +194,7 @@ timeShoot.setSeconds(timeShoot.getSeconds() + randomSeconds);
                         answeringPlayers.forEach(s =>s.shootTime=null)
                         players.forEach(p => p.answered = false);
                         timeShoot=null;
-                        sendQuestion();}, 20000);
+                        setTimeout(() => {sendQuestion();},20000)}, 20000);
                 },10000)
                 // Gửi câu hỏi mới cho tất cả người chơi
                 
@@ -205,8 +205,10 @@ timeShoot.setSeconds(timeShoot.getSeconds() + randomSeconds);
 
     // Khi người chơi ngắt kết nối
     socket.on('disconnect', () => {
+        
         //console.log(`Player disconnected: ${socket.id}`);
         players = players.filter(p => p.id !== socket.id);
+        io.emit('playerCount',players.length)
         if(!socket.name)return;
         
         const index=students.findIndex(innerArray => innerArray.includes(socket.name))

@@ -8,6 +8,7 @@
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
 <body>
+    <h1 id='plrCount'>22</h1>
     <div id='result' style="display:none">
         <div>
         <h1>the question</h1>
@@ -59,7 +60,9 @@ const questionDiv = document.getElementById('question');
             else sound1.cloneNode().play();
             
         })
-
+        socket.on('playerCount', (message) => {
+            document.getElementById('plrCount').innerText = message;
+        });
         socket.on('host_assigned', (message) => {
             document.getElementById('hostInfo').innerText = message;
         });
@@ -143,9 +146,9 @@ document.querySelector('#result').style.display='none'
             socket.emit('start_quiz',11122008);
         };
         document.addEventListener('keydown', function(event) {
-  if (event.code === 'Space' && isHosting==false) {
+            if (event.key >= '0' && event.key <= '9') {
     isHosting=true
-    socket.emit('start_quiz',11122008);
+    socket.emit('start_quiz',11122008,Number(event.key));
   }
 });
 socket.on('quizEnd', (data) => {
