@@ -147,6 +147,8 @@ document.querySelector('#result').style.display='none'
         };
         document.addEventListener('keydown', function(event) {
             if (event.key >= '0' && event.key <= '9') {
+                document.querySelector('.quiz-container').style.animation=" slideOut 0s ease-in-out";
+            document.querySelector('.quiz-container').style.opacity=0;
     isHosting=true
     socket.emit('start_quiz',11122008,Number(event.key)-1);
   }
