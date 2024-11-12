@@ -24,7 +24,7 @@
 <div id="battle" style="display:none">
     <div>
         <h1 class="title">The game is starting</h1>
-    <h2 style="display:none">Shoot only after hearing or seeing the 'shoot' command<br>Players answer incorrectly will not be able to shoot</h2>
+    <h2 >Shoot only after hearing or seeing the 'shoot' command<br>Players answer incorrectly will not be able to shoot</h2>
     </div>
     <h1 class='shoot' style="display:none">shoot!!!</h1>
     
@@ -68,7 +68,7 @@ const questionDiv = document.getElementById('question');
             document.querySelector('#battle').style.animation=" slideIn 2s ease-in-out";
             document.querySelector('#battle').style.opacity=1;
             document.querySelector('#battle').querySelector("div").style.display='block'
-            setTimeout(() => { document.querySelector('#battle').querySelector("div").style.display='none';document.querySelector('#battle').querySelector("h1").style.display='block'},time*1000)
+            setTimeout(() => { document.querySelector('#battle').querySelector("div").style.display='none';document.querySelector('#battle').querySelector(".shoot").style.display='block'},time*1000)
         });
         socket.on('battle',()=>{
             document.querySelector('.quiz-container').style.animation=" slideOut 1s ease-in-out";
@@ -80,7 +80,8 @@ const questionDiv = document.getElementById('question');
         socket.on('winner',(data)=>{
             document.querySelector('#winner').style.display='flex'
             setTimeout(() => {
-                document.querySelector('#winner').querySelector("h1").innerText=`the winner is ${data.name}`;
+                if(data=="no one because of the timeout!")document.querySelector('#winner').querySelector("h1").innerText="DRAW because of the timeout!!!"
+                document.querySelector('#winner').querySelector("h1").innerText=`the winner is ${data.name}!!!`;
                 document.querySelector('#winner').querySelector("h1").style.display='block'},1000)
                 setTimeout(() => {
                 document.querySelector('#result').style.display='flex'
@@ -98,13 +99,13 @@ const questionDiv = document.getElementById('question');
         socket.on('questionData', (data) => {
             document.querySelector('#instruction1').style.display="none"
             document.querySelector('#battle').style.display='none'
-            document.querySelector('#battle').querySelector("h1").style.display='none'
+            document.querySelector('#battle').querySelector(".shoot").style.display='none'
             document.querySelector('#battle').querySelector("div").style.display='none'
             document.querySelector('#winner').style.display='none'
             document.querySelector('#winner').querySelector("h1").style.display='none'
 document.querySelector('#result').style.display='none'
             document.querySelector('#result').querySelector("h1").innerText=data.question.question
-            document.querySelector('#result').querySelector("h2").innerText=data.question.options[data.question.answer]
+            document.querySelector('#result').querySelector("h2").innerText=data.question.options[data.question.answer-1]
             optionsDiv.innerHTML=""
             console.log(123)
             questionDiv.innerText=data.question.question
@@ -150,7 +151,7 @@ document.querySelector('#result').style.display='none'
 socket.on('quizEnd', (data) => {
         document.querySelector('.quiz-container').innerHTML="Quiz end!"
         document.querySelector('#battle').style.display='none'
-            document.querySelector('#battle').querySelector("h1").style.display='none'
+            document.querySelector('#battle').querySelector(".shoot").style.display='none'
     });
     document.addEventListener('keydown', function(event) {
   // Kiểm tra xem phím 'F' có được nhấn không

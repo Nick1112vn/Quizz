@@ -134,12 +134,14 @@ document.querySelector('#shootingPanel').style.display="none"
     });
 
     socket.on('quizEnd', (data) => {
+        if(document.querySelector('#StudentsList').style.display!="none")return
         document.querySelector('#waiting').style.display="flex"
         document.querySelector('#waiting').querySelector('h1').innerText="Quiz end!"
         document.querySelector('#shootingPanel').style.display="none"
         document.querySelector(".quiz-container").style.display='none'
     });
     socket.on('quizStart', (data) => {
+        if(document.querySelector('#StudentsList').style.display!="none")return
         document.querySelector('#waiting').style.display="flex"
         document.querySelector('#waiting').querySelector('h1').innerText="Waiting for your turn"
         document.querySelector('#shootingPanel').style.display="none"
