@@ -28,6 +28,17 @@
 
 <script src="https://cdn.socket.io/4.8.0/socket.io.min.js" integrity="sha384-OoIbkvzsFFQAG88r+IqMAjyOtYDPGO0cqK5HF5Uosdy/zUEGySeAzytENMDynREd" crossorigin="anonymous"></script>
 <script>
+    if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock('portrait')  // hoặc 'landscape'
+        .then(function() {
+            console.log("Màn hình đã khóa thành công.");
+        })
+        .catch(function(error) {
+            console.error("Khóa xoay màn hình thất bại: ", error);
+        });
+} else {
+    console.log("API Screen Orientation không được hỗ trợ trên thiết bị này.");
+}
     edT=0;
     currentTime=new Date()
     function getTime(){
@@ -69,6 +80,7 @@
 
 /* Close fullscreen */
 function closeFullscreen() {
+    if (!document.fullscreenElement)return
   if (document.exitFullscreen) {
     document.exitFullscreen();
   } else if (document.webkitExitFullscreen) { /* Safari */

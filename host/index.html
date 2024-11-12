@@ -8,6 +8,13 @@
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
 <body>
+    <div id='result' style="display:none">
+        <div>
+        <h1>the question</h1>
+        <h2>the answer</h2>
+        </div>
+    </div>
+    <img id="instruction1" src='../source/instruction1.png'>
     <div id="pattern"></div>
     <h1 id="heading">Quizz Sinh</h1>
     <div id="hostInfo"></div>
@@ -15,7 +22,12 @@
     <button id="startButton">Start Quiz</button>
 <h1 id='vsPanel'></h1>
 <div id="battle" style="display:none">
-    <h1 style="display:none">shoot!!!</h1>
+    <div>
+        <h1 class="title">The game is starting</h1>
+    <h2 style="display:none">Shoot only after hearing or seeing the 'shoot' command<br>Players answer incorrectly will not be able to shoot</h2>
+    </div>
+    <h1 class='shoot' style="display:none">shoot!!!</h1>
+    
 </div>
 <div id="winner" style="display:none">
     <h1 style="display:none"></h1>
@@ -43,9 +55,9 @@ const questionDiv = document.getElementById('question');
         // Gán host
         socket.emit('host',11122008);
         socket.on('shoot', (data) => {
-            if(data.answer==true)sound.cloneNode().play();
+            if(data.answer==true){sound.cloneNode().play(); if(data.state=="winner")sound2.cloneNode().play();}
             else sound1.cloneNode().play();
-            if(data.state=="winner")sound2.cloneNode().play();
+            
         })
 
         socket.on('host_assigned', (message) => {
@@ -53,38 +65,61 @@ const questionDiv = document.getElementById('question');
         });
         socket.on('shootTime', (time) => {
             document.querySelector('#battle').style.display='flex'
-            setTimeout(() => {document.querySelector('#battle').querySelector("h1").style.display='block'},time*1000)
+            document.querySelector('#battle').style.animation=" slideIn 2s ease-in-out";
+            document.querySelector('#battle').style.opacity=1;
+            document.querySelector('#battle').querySelector("div").style.display='block'
+            setTimeout(() => { document.querySelector('#battle').querySelector("div").style.display='none';document.querySelector('#battle').querySelector("h1").style.display='block'},time*1000)
         });
         socket.on('battle',()=>{
-            document.querySelector('.quiz-container').style.animation=" slideOut 2s ease-in-out";
+            document.querySelector('.quiz-container').style.animation=" slideOut 1s ease-in-out";
             document.querySelector('.quiz-container').style.opacity=0;
+            document.querySelector('#instruction1').style.display="block"
+            document.querySelector('#instruction1').style.animation=" slideIn 1s ease-in-out";
+            document.querySelector('#instruction1').style.opacity=1;
         })
         socket.on('winner',(data)=>{
             document.querySelector('#winner').style.display='flex'
             setTimeout(() => {
-                document.querySelector('#winner').querySelector("h1").innerText=`the winner is: ${data.name}`;
+                document.querySelector('#winner').querySelector("h1").innerText=`the winner is ${data.name}`;
                 document.querySelector('#winner').querySelector("h1").style.display='block'},1000)
+                setTimeout(() => {
+                document.querySelector('#result').style.display='flex'
+                },5000)
+        })
+        socket.on('miss',(data)=>{
+            document.querySelector('#winner').style.display='flex'
+            setTimeout(() => {
+                document.querySelector('#winner').querySelector("h1").innerText=`${data.name} is disqualified because the shot was before the command`;
+                document.querySelector('#winner').querySelector("h1").style.display='block'},1000)
+                setTimeout(() => {
+                document.querySelector('#result').style.display='flex'
+                },5000)
         })
         socket.on('questionData', (data) => {
+            document.querySelector('#instruction1').style.display="none"
             document.querySelector('#battle').style.display='none'
             document.querySelector('#battle').querySelector("h1").style.display='none'
+            document.querySelector('#battle').querySelector("div").style.display='none'
             document.querySelector('#winner').style.display='none'
             document.querySelector('#winner').querySelector("h1").style.display='none'
+document.querySelector('#result').style.display='none'
+            document.querySelector('#result').querySelector("h1").innerText=data.question.question
+            document.querySelector('#result').querySelector("h2").innerText=data.question.options[data.question.answer]
             optionsDiv.innerHTML=""
             console.log(123)
             questionDiv.innerText=data.question.question
             
             setTimeout(() => {
-            document.querySelector('.quiz-container').style.animation=" slideIn 2s ease-in-out";
+            document.querySelector('.quiz-container').style.animation=" slideIn 1s ease-in-out";
             document.querySelector('.quiz-container').style.opacity=1;
             },4000)
             document.querySelector('#heading').style.display="none"
             document.querySelector('#bdImg').style.display="none"
             document.querySelector('#vsPanel').innerText=`${data.answeringPlayers[0].name} vs ${data.answeringPlayers[1].name}`
-            document.querySelector('#vsPanel').style.animation=" slideIn 2s ease-in-out";
+            document.querySelector('#vsPanel').style.animation=" slideIn 1s ease-in-out";
             document.querySelector('#vsPanel').style.opacity=1;
             setTimeout(() => {
-            document.querySelector('#vsPanel').style.animation=" slideOut 2s ease-in-out";
+            document.querySelector('#vsPanel').style.animation=" slideOut 1s ease-in-out";
             document.querySelector('#vsPanel').style.opacity=0;
             },4000)
             document.querySelector('.quiz-container').style.display="block"
@@ -117,6 +152,21 @@ socket.on('quizEnd', (data) => {
         document.querySelector('#battle').style.display='none'
             document.querySelector('#battle').querySelector("h1").style.display='none'
     });
+    document.addEventListener('keydown', function(event) {
+  // Kiểm tra xem phím 'F' có được nhấn không
+  if (event.key === 'f' || event.key === 'F') {
+    let elem = document.documentElement; // Toàn bộ trang
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { // Firefox
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { // Chrome, Safari và Opera
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { // IE/Edge
+      elem.msRequestFullscreen();
+    }
+  }
+});
     </script>
 </body>
 </html>

@@ -166,8 +166,43 @@ body, html {
     
     align-items: center;
     justify-content: center;
+    
 }
 #battle h1,#winner h1{
 color:aliceblue;
 font-size: 100px;
+}
+#battle h2{
+    color:aliceblue;
+    font-size: 30px;
+    }
+#instruction1{
+    position: absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background-color: rgb(255, 255, 255);
+    display:block;
+    z-index: 1;
+    object-fit: contain;
+    display:none;
+}
+#result{
+    background-color: aquamarine;
+    width:100%;
+    height:100%;
+    position: absolute;
+    left:0;
+    top:0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#result div *{
+    
+    width:90vw;
+    
+    
 }

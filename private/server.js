@@ -72,7 +72,7 @@ function getRandomExcept(exclude,max) {
                    //answeringPlayer = rdPlayers[group][randomIndex];
                    //console.log(answeringPlayer)
                    io.emit('quizStart', { message: "Quiz started!" });
-                   host.emit('questionData', {answeringPlayers:answeringPlayers.map(obj => ({id:obj.id,name:obj.name})),question:questions[currentQuestionIndex]});
+                   host.emit('questionData', {answeringPlayers:answeringPlayers.map(obj => ({id:obj.id,name:obj.name})),question:originQuestions[currentQuestionIndex]});
                    setTimeout(() => {
                    if(answeringPlayers.length>0)answeringPlayers.forEach(s =>s.emit('question', questions[currentQuestionIndex]));
                 }, 6000)
@@ -111,7 +111,7 @@ const sortedArr = arr.sort((a, b) => b.shootTime - a.shootTime);
 
 // Lấy đối tượng có giá trị cao nhất
 const highestValueObject = sortedArr[0];
-if (now<timeShoot)host.emit('miss',socket.name)
+if (now<timeShoot)host.emit('miss',{name:socket.name,answer:socket.answer})
 else host.emit('winner',{name:socket.name,answer:socket.answer})
 answeringPlayers.forEach(s =>s.shootTime=null)
 answeringPlayers.forEach(s =>s.emit('reset', ''));
@@ -119,7 +119,7 @@ players.forEach(p => p.answered = false);
 timeShoot=null;
 setTimeout(() => {
 sendQuestion();
-},5000)
+},15000)
 
         
     }  
