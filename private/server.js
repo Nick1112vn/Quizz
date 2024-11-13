@@ -57,6 +57,8 @@ function getRandomExcept(exclude,max) {
             
     if(groups.length<2)groups=JSON.parse(JSON.stringify(origingroups));
     answeringPlayers=[]
+    clearTimeout(currentTimeout);
+    clearTimeout(currentTimeout1);
     for(let i=0;i<2;i+=1){
         const groupIndex=Math.floor(Math.random() * groups.length)
                    const group = groups[groupIndex];
@@ -219,6 +221,7 @@ timeShoot.setSeconds(timeShoot.getSeconds() + randomSeconds);
         if (answeringPlayers.includes(socket)&&!socket.answered){answeringPlayers.forEach(s =>s.shootTime=null)
             players.forEach(p => p.answered = false);
             timeShoot=null;
+            answersReceived = 0;
             sendQuestion();
         }
         //console.log(students,index,origingroups)
