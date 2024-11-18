@@ -92,7 +92,7 @@ function getRandomExcept(exclude,max) {
 io.on('connection', (socket) => {
     //console.log(`Player connected: ${socket.id}`);
     players.push(socket);
-    io.emit('playerCount',players.length)
+    io.emit('playerCount',players.filter(item => item.name != null).length)
     // Gửi câu hỏi hiện tại cho người chơi mới
     socket.on('shoot', (sentTime) => {
         const now = new Date()
@@ -140,6 +140,7 @@ sendQuestion();
             const arr=getRandomIndexes(stories.length, 5);
             socket.stories=arr;
             socket.emit('stories',arr)
+            io.emit('playerCount',players.filter(item => item.name != null).length)
     });
     socket.on('selectStory', (i) => {
         if(!socket.stories||!socket.stories.includes(i)||socket.selectedStory)return;
@@ -213,7 +214,7 @@ timeShoot.setSeconds(timeShoot.getSeconds() + randomSeconds);
         
         //console.log(`Player disconnected: ${socket.id}`);
         players = players.filter(p => p.id !== socket.id);
-        io.emit('playerCount',players.length)
+        io.emit('playerCount',players.filter(item => item.name != null).length)
         if(!socket.name)return;
         
         const index=students.findIndex(innerArray => innerArray.includes(socket.name))
