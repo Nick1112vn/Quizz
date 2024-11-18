@@ -3,7 +3,20 @@ let shakeThreshold = 5; // Ngưỡng để xác định rung mạnh hay yếu
 let shakeTimeout;
 const sound = new Audio('./pistolShot.mp3');
 sound.load();
+window.addEventListener("orientationchange", function() {
+  // Get the new orientation angle
+  const orientation = window.orientation;
+  console.log("Orientation changed: " + orientation);
 
+  if (orientation === 0) {
+    document.querySelector('#shootingPanel').querySelector('img').classList.remove('rotate90')
+    
+      console.log("Portrait mode");
+  } else if (orientation === 90 || orientation === -90) {
+    document.querySelector('#shootingPanel').querySelector('img').classList.add('rotate90')
+      console.log("Landscape mode");
+  }
+});
 // Hàm xử lý khi lắc điện thoại
 function onShake() {
     //alert("shot")
