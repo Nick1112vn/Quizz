@@ -3,7 +3,19 @@ let shakeThreshold = 5; // Ngưỡng để xác định rung mạnh hay yếu
 let shakeTimeout;
 const sound = new Audio('./pistolShot.mp3');
 sound.load();
-
+alert(screen.orientation)
+if (screen.orientation ) {
+  alert("Màn hình đã được khóa theo chiều dọc!");
+  screen.orientation.lock("portrait")
+      .then(() => {
+          alert("Màn hình đã được khóa theo chiều dọc!");
+      })
+      .catch((error) => {
+          alert("Không thể khóa màn hình:", error);
+      });
+} else {
+  console.warn("Trình duyệt không hỗ trợ Screen Orientation API.");
+}
 // Hàm xử lý khi lắc điện thoại
 function onShake() {
     //alert("shot")
@@ -14,15 +26,25 @@ function onShake() {
 // Play the sound
 //sound.play();
 }
-alert(typeof DeviceMotionEvent !== 'undefined'&&typeof DeviceMotionEvent.requestPermission === 'function')
+//alert(typeof DeviceMotionEvent !== 'undefined'&&typeof DeviceMotionEvent.requestPermission === 'function')
 document.querySelector("#StudentsList").querySelector(".submit").addEventListener("click",function(){
-  alert(typeof DeviceMotionEvent.requestPermission === 'function')
+  alert(screen.orientation)
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock("portrait")
+        .then(() => {
+            console.log("Màn hình đã được khóa theo chiều dọc!");
+        })
+        .catch((error) => {
+            console.error("Không thể khóa màn hình:", error);
+        });
+}
+  //alert(typeof DeviceMotionEvent.requestPermission === 'function')
 if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
   // iOS 13+ yêu cầu quyền
  
       DeviceMotionEvent.requestPermission()
           .then(permissionState => {
-            alert(permissionState)
+            //alert(permissionState)
               if (permissionState === 'granted') {
 // Lắng nghe sự kiện chuyển động của thiết bị
 window.addEventListener("devicemotion", event => {
