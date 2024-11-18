@@ -55,13 +55,16 @@ function getRandomExcept(exclude,max) {
                 // Kết thúc quiz
                 
             
-    if(groups.length<2)groups=JSON.parse(JSON.stringify(origingroups));
+    //if(groups.length<2)groups=JSON.parse(JSON.stringify(origingroups));
     answeringPlayers=[]
     clearTimeout(currentTimeout);
     clearTimeout(currentTimeout1);
+    let groupBefore;
     for(let i=0;i<2;i+=1){
+        if(groups.length==0){groups=JSON.parse(JSON.stringify(origingroups));groups.splice(groups.indexOf(groupBefore),1)}
         const groupIndex=Math.floor(Math.random() * groups.length)
                    const group = groups[groupIndex];
+                   groupBefore=groups[groupIndex]
                    //console.log(origingroups)
                    const randomIndex = Math.floor(Math.random() * rdPlayers[group].length);
                    if(rdPlayers[group].length<=0)rdPlayers[group]=JSON.parse(JSON.stringify(students[group]))
