@@ -7,6 +7,7 @@ sound.load();
 // Hàm xử lý khi lắc điện thoại
 function onShake() {
     //alert("shot")
+    alert(DeviceMotionEvent)
   // Đây là nơi bạn có thể thực hiện hành động, ví dụ: bắn súng
   console.log("Phone shake detected!");
   socket.emit('shoot',getTime())
@@ -14,6 +15,7 @@ function onShake() {
 // Play the sound
 //sound.play();
 }
+alert(DeviceMotionEvent)
 if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
   // iOS 13+ yêu cầu quyền
  

@@ -85,7 +85,7 @@ const questionDiv = document.getElementById('question');
             document.querySelector('#winner').style.display='flex'
             setTimeout(() => {
                 if(data=="no one because of the timeout!")document.querySelector('#winner').querySelector("h1").innerText="DRAW because of the timeout!!!"
-                document.querySelector('#winner').querySelector("h1").innerText=`the winner is ${data.name}!!!`;
+                else document.querySelector('#winner').querySelector("h1").innerText=`the winner is ${data.name}!!!`;
                 document.querySelector('#winner').querySelector("h1").style.display='block'},1000)
                 setTimeout(() => {
                 document.querySelector('#result').style.display='flex'
