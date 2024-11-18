@@ -14,7 +14,7 @@ function onShake() {
 // Play the sound
 //sound.play();
 }
-alert(DeviceMotionEvent,DeviceMotionEvent.requestPermission)
+alert(typeof DeviceMotionEvent !== 'undefined',typeof DeviceMotionEvent.requestPermission === 'function')
 if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
   // iOS 13+ yêu cầu quyền
  
