@@ -11,6 +11,7 @@ const stories=require("../stories.json");
 const origingroups=[];
 let currentTimeout;
 let currentTimeout1;
+let currentTimeout2;
 let groups=[];
 let host;
 let timeShoot=null;
@@ -85,7 +86,7 @@ function getRandomExcept(exclude,max) {
   function sendQuestion(){
     //console.log(origingroups)
         if(origingroups.length>=2)sendQuestion1()
-            else setTimeout(() => {sendQuestion()},1000);
+            else currentTimeout2=setTimeout(() => {if(host)sendQuestion()},1000);
     
   }
 // Kết nối client
@@ -211,7 +212,7 @@ timeShoot.setSeconds(timeShoot.getSeconds() + randomSeconds);
 
     // Khi người chơi ngắt kết nối
     socket.on('disconnect', () => {
-        
+        if(socket==host) host=null;
         //console.log(`Player disconnected: ${socket.id}`);
         players = players.filter(p => p.id !== socket.id);
         io.emit('playerCount',players.filter(item => item.name != null).length)
