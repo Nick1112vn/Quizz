@@ -72,7 +72,7 @@ const questionDiv = document.getElementById('question');
             document.querySelector('#battle').style.animation=" slideIn 2s ease-in-out";
             document.querySelector('#battle').style.opacity=1;
             document.querySelector('#battle').querySelector("div").style.display='block'
-            setTimeout(() => { document.querySelector('#battle').querySelector("div").style.display='none';document.querySelector('#battle').querySelector(".shoot").style.display='block'},time*1000-2000)
+            setTimeout(() => { document.querySelector('#battle').querySelector("div").style.display='none';document.querySelector('#battle').querySelector(".shoot").style.display='block'},time*1000)
         });
         socket.on('battle',()=>{
             document.querySelector('.quiz-container').style.animation=" slideOut 1s ease-in-out";
