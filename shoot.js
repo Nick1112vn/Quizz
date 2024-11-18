@@ -14,7 +14,9 @@ function onShake() {
 // Play the sound
 //sound.play();
 }
-alert(typeof DeviceMotionEvent !== 'undefined',typeof DeviceMotionEvent.requestPermission === 'function')
+alert(typeof DeviceMotionEvent !== 'undefined'&&typeof DeviceMotionEvent.requestPermission === 'function')
+document.querySelector("#StudentsList").querySelector(".submit").addEventListener("click",function(){
+  alert(typeof DeviceMotionEvent.requestPermission === 'function')
 if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
   // iOS 13+ yêu cầu quyền
  
@@ -110,6 +112,7 @@ window.addEventListener('devicemotion', (event) => {
   lastZ = currentZ;
 });
 }
+})
 document.addEventListener('keydown', function(event) {
   if (event.code === 'Space') { // Kiểm tra nếu phím nhấn là Space
       event.preventDefault(); // Ngăn chặn hành động mặc định của phím cách (cuộn trang)
