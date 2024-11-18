@@ -260,7 +260,9 @@ function search(){
         }
         input.addEventListener('focus', function() {
             select.classList.remove("hideselect");input.classList.add("default-border-radius");select.parentNode.classList.remove("hideDv");})
-            
+            input.addEventListener('click', function () {
+    this.focus();
+});  
         // Ẩn danh sách khi click ra ngoài
         input.addEventListener('click', function(event) {
         //search()
