@@ -62,7 +62,7 @@ const questionDiv = document.getElementById('question');
             
         })
         socket.on('playerCount', (message) => {
-            document.getElementById('plrCount').innerText = message-1;
+            document.getElementById('plrCount').innerText = message;
         });
         socket.on('host_assigned', (message) => {
             document.getElementById('hostInfo').innerText = message;
@@ -101,6 +101,7 @@ const questionDiv = document.getElementById('question');
                 },8000)
         })
         socket.on('questionData', (data) => {
+            document.querySelector("#qrCode").style.display="none"
             document.querySelector('#instruction1').style.display="none"
             document.querySelector('#battle').style.display='none'
             document.querySelector('#battle').querySelector(".shoot").style.display='none'
