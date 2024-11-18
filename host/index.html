@@ -72,7 +72,7 @@ const questionDiv = document.getElementById('question');
             document.querySelector('#battle').style.animation=" slideIn 2s ease-in-out";
             document.querySelector('#battle').style.opacity=1;
             document.querySelector('#battle').querySelector("div").style.display='block'
-            setTimeout(() => { document.querySelector('#battle').querySelector("div").style.display='none';document.querySelector('#battle').querySelector(".shoot").style.display='block'},time*1000)
+            setTimeout(() => { document.querySelector('#battle').querySelector("div").style.display='none';document.querySelector('#battle').querySelector(".shoot").style.display='block'},time*1000-2000)
         });
         socket.on('battle',()=>{
             document.querySelector('.quiz-container').style.animation=" slideOut 1s ease-in-out";
@@ -85,7 +85,7 @@ const questionDiv = document.getElementById('question');
             document.querySelector('#winner').style.display='flex'
             setTimeout(() => {
                 if(data=="no one because of the timeout!")document.querySelector('#winner').querySelector("h1").innerText="DRAW because of the timeout!!!"
-                else document.querySelector('#winner').querySelector("h1").innerText=`the winner is ${data.name}!!!`;
+                else document.querySelector('#winner').querySelector("h1").innerText=`The winner is ${data.name}!!!`;
                 document.querySelector('#winner').querySelector("h1").style.display='block'},1000)
                 setTimeout(() => {
                 document.querySelector('#result').style.display='flex'

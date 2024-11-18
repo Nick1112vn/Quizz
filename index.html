@@ -172,7 +172,7 @@ document.querySelector('#shootingPanel').style.display="none"
     socket.on('quizStart', (data) => {
         if(document.querySelector('#StudentsList').style.display!="none")return
         document.querySelector('#waiting').style.display="flex"
-        document.querySelector('#waiting').querySelector('h1').innerText="Waiting for your turn"
+        document.querySelector('#waiting').querySelector('h1').innerText="!Waiting for your turn!<br><br>remember to lock your screen vertically"
         document.querySelector('#shootingPanel').style.display="none"
         document.querySelector(".quiz-container").style.display='none'
 
