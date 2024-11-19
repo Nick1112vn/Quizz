@@ -1,6 +1,7 @@
 let lastX, lastY, lastZ;
 let shakeThreshold = 5; // Ngưỡng để xác định rung mạnh hay yếu
 let shakeTimeout;
+let isRequestPermission=false
 const sound = new Audio('./pistolShot.mp3');
 sound.load();
 window.addEventListener("orientationchange", function() {
@@ -30,6 +31,7 @@ function onShake() {
 //alert(typeof DeviceMotionEvent !== 'undefined'&&typeof DeviceMotionEvent.requestPermission === 'function')
 document.querySelector("#StudentsList").querySelector(".submit").addEventListener("click",function(){
   //alert(typeof DeviceMotionEvent.requestPermission === 'function')
+  if(isRequestPermission==true)return
 if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
   // iOS 13+ yêu cầu quyền
  
@@ -38,6 +40,7 @@ if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.request
             //alert(permissionState)
               if (permissionState === 'granted') {
 // Lắng nghe sự kiện chuyển động của thiết bị
+isRequestPermission=true
 window.addEventListener("devicemotion", event => {
   let acceleration = event.accelerationIncludingGravity;
 
@@ -84,6 +87,7 @@ window.addEventListener("devicemotion", event => {
 .catch(console.error);
 
 } else {
+  isRequestPermission=true
 // Các trình duyệt khác hoặc iOS phiên bản cũ hơn
 window.addEventListener('devicemotion', (event) => {
   let acceleration = event.accelerationIncludingGravity;
