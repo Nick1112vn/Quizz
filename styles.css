@@ -62,6 +62,9 @@ body, html {
     color:aliceblue;
 }
 .custom-select {
+    -webkit-user-select: auto; /* Safari */
+    -ms-user-select: text; /* IE 10+ */
+    user-select: text; /* Standard */
             position: absolute;
             display: inline-block;
             width: 300px;
@@ -89,6 +92,9 @@ body, html {
             height: 0 !important;
         }
         #selectInput {
+            -webkit-user-select: auto; /* Safari */
+    -ms-user-select: text; /* IE 10+ */
+    user-select: text; /* Standard */
             width: 100%;
             box-sizing: border-box;
             height: 50px;
