@@ -106,9 +106,9 @@ body, html {
             outline: none;
             border:none;
             transition: 0.2s;
-            font-size: 25px;
+            font-size: 24px;
             padding: 10px ;
-            
+            text-align: center;
         }
         
         .default-border-radius{
