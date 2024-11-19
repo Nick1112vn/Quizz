@@ -53,7 +53,7 @@ const questionDiv = document.getElementById('question');
     sound.load();
     const bgsound = new Audio('../source/blood-chillingly-creepy-atmospheres-183561.mp3');
     bgsound.loop = true;
-    bgsound.play();
+    
         // Gán host
         socket.emit('host',11122008);
         socket.on('shoot', (data) => {
@@ -163,6 +163,7 @@ socket.on('quizEnd', (data) => {
     document.addEventListener('keydown', function(event) {
   // Kiểm tra xem phím 'F' có được nhấn không
   if (event.key === 'f' || event.key === 'F') {
+    bgsound.play();
     let elem = document.documentElement; // Toàn bộ trang
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
